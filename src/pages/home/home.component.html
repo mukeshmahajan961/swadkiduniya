@@ -1,0 +1,10 @@
+<app-hero></app-hero>
+<app-state-selector 
+  [states]="states" 
+  [activeState]="selectedState()"
+  (stateSelected)="handleStateSelection($event)">
+</app-state-selector>
+<app-recipe-display 
+  [state]="recipeData()" 
+  [isLoading]="isLoading()">
+</app-recipe-display>

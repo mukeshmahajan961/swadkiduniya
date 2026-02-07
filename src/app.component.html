@@ -1,0 +1,20 @@
+<div class="flex flex-col min-h-screen">
+  <app-header></app-header>
+  <main class="flex-grow">
+    <router-outlet></router-outlet>
+  </main>
+  <app-footer></app-footer>
+</div>
+
+<app-modal 
+  [isOpen]="!!modalService.modalState()" 
+  (closeModal)="modalService.close()">
+  @switch (modalService.modalState()) {
+    @case ('login') {
+      <app-login-form></app-login-form>
+    }
+    @case ('signup') {
+      <app-signup-form></app-signup-form>
+    }
+  }
+</app-modal>

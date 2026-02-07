@@ -1,0 +1,71 @@
+<div class="py-16 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto">
+    <h2 class="text-3xl font-bold text-center text-gray-800 mb-2">
+      Cuisine of {{ state().name }}
+    </h2>
+    <div class="w-24 h-1 bg-orange-500 mx-auto mb-12"></div>
+
+    @if (isLoading()) {
+      <!-- Skeleton UI -->
+      <div>
+        <!-- Skeleton for Category Tabs -->
+        <div class="flex justify-center space-x-2 sm:space-x-4 mb-12 border-b-2 border-gray-200 pb-2">
+            <div class="h-10 bg-gray-200 rounded-t-lg w-24 animate-pulse"></div>
+            <div class="h-10 bg-gray-200 rounded-t-lg w-32 animate-pulse"></div>
+            <div class="h-10 bg-gray-200 rounded-t-lg w-28 animate-pulse"></div>
+        </div>
+
+        <!-- Skeleton for Recipe Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            @for (_ of [1, 2, 3]; track $index) {
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                <div class="w-full h-56 bg-gray-300 animate-pulse"></div>
+                <div class="p-6">
+                    <div class="h-6 bg-gray-300 rounded w-3/4 mb-4 animate-pulse"></div>
+                    <div class="h-4 bg-gray-200 rounded w-full animate-pulse"></div>
+                    <div class="h-4 bg-gray-200 rounded w-5/6 mt-2 animate-pulse"></div>
+                </div>
+            </div>
+            }
+        </div>
+      </div>
+    } @else {
+      <!-- Actual Content -->
+      @if (state().categories.length > 0) {
+        <!-- Category Tabs -->
+        <div class="flex justify-center space-x-2 sm:space-x-4 mb-12 border-b-2 border-gray-200 pb-2">
+          @for (category of state().categories; track category.name) {
+            <button
+              (click)="selectCategory(category)"
+              class="px-4 py-2 text-sm sm:text-base font-semibold rounded-t-lg transition-colors duration-300 focus:outline-none"
+              [class.text-orange-600]="category.name === displayCategory()?.name"
+              [class.border-b-4]="category.name === displayCategory()?.name"
+              [class.border-orange-500]="category.name === displayCategory()?.name"
+              [class.text-gray-500]="category.name !== displayCategory()?.name"
+              [class.hover:text-orange-500]="category.name !== displayCategory()?.name"
+            >
+              {{ category.name }}
+            </button>
+          }
+        </div>
+
+        <!-- Recipe Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          @if (displayCategory(); as category) {
+              @for (recipe of category.recipes; track recipe.name) {
+              <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300">
+                <img class="w-full h-56 object-cover" [src]="recipe.image" [alt]="recipe.name">
+                <div class="p-6">
+                  <h3 class="text-xl font-bold text-gray-900 mb-2">{{ recipe.name }}</h3>
+                  <p class="text-gray-600">{{ recipe.description }}</p>
+                </div>
+              </div>
+              }
+          }
+        </div>
+      } @else {
+        <p class="text-center text-gray-500 mt-8">No recipes available for this state yet.</p>
+      }
+    }
+  </div>
+</div>

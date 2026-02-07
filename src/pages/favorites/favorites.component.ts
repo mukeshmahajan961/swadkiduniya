@@ -1,0 +1,14 @@
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+
+@Component({
+  selector: 'app-favorites',
+  standalone: true,
+  imports: [CommonModule, RouterLink],
+  templateUrl: './favorites.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class FavoritesComponent {
+
+}

@@ -1,0 +1,59 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <div class="text-center mb-12">
+    <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight">Explore All Recipes</h1>
+    <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-500">
+      Find your next favorite dish from a collection of authentic recipes from across the nation.
+    </p>
+  </div>
+
+  <div class="flex flex-col md:flex-row gap-8">
+    <!-- Filters Sidebar -->
+    <aside class="w-full md:w-1/4 lg:w-1/5">
+      <div class="bg-white p-6 rounded-lg shadow-md sticky top-24">
+        <h3 class="text-lg font-semibold border-b pb-2 mb-4">Filter Recipes</h3>
+        <form class="space-y-6">
+          <div>
+            <label for="state-filter" class="block text-sm font-medium text-gray-700">State</label>
+            <select id="state-filter" [formControl]="stateFilter" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm rounded-md">
+              <option value="All">All States</option>
+              @for (stateName of stateNames; track stateName) {
+                <option [value]="stateName">{{ stateName }}</option>
+              }
+            </select>
+          </div>
+          <div>
+            <label for="category-filter" class="block text-sm font-medium text-gray-700">Category</label>
+            <input type="text" id="category-filter" [formControl]="categoryFilter" placeholder="e.g. Breakfast" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
+          </div>
+          <div>
+            <label for="name-filter" class="block text-sm font-medium text-gray-700">Recipe Name</label>
+            <input type="text" id="name-filter" [formControl]="nameFilter" placeholder="e.g. Dhokla" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
+          </div>
+        </form>
+      </div>
+    </aside>
+
+    <!-- Recipe Grid -->
+    <main class="w-full md:w-3/4 lg:w-4/5">
+      @if (filteredRecipes().length > 0) {
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
+            @for (recipe of filteredRecipes(); track recipe.slug + recipe.stateName) {
+            <a [routerLink]="['/recipes', recipe.stateName.toLowerCase(), recipe.slug]" class="block bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 group">
+              <img class="w-full h-56 object-cover" [src]="recipe.image" [alt]="recipe.name">
+              <div class="p-6">
+                <p class="text-sm font-semibold text-orange-600">{{ recipe.stateName }}</p>
+                <h3 class="text-xl font-bold text-gray-900 mt-1 mb-2 group-hover:text-orange-500 transition-colors">{{ recipe.name }}</h3>
+                <p class="text-gray-600 text-sm">{{ recipe.description }}</p>
+              </div>
+            </a>
+            }
+        </div>
+      } @else {
+        <div class="text-center py-16 px-6 bg-white rounded-lg shadow-md">
+            <h3 class="text-xl font-semibold text-gray-800">No Recipes Found</h3>
+            <p class="text-gray-500 mt-2">Try adjusting your filters to find what you're looking for.</p>
+        </div>
+      }
+    </main>
+  </div>
+</div>

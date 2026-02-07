@@ -1,0 +1,69 @@
+<nav class="bg-white shadow-md sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-20">
+      
+      <!-- Logo -->
+      <div class="flex-shrink-0">
+        <a href="#" class="flex items-center space-x-2">
+          <svg class="h-8 w-8 text-orange-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v11.494m-9-5.747h18M12 21.747a9.75 9.75 0 110-19.5 9.75 9.75 0 010 19.5z" />
+          </svg>
+          <span class="text-2xl font-bold text-gray-800">Swadikiduniya</span>
+        </a>
+      </div>
+
+      <!-- Desktop Menu -->
+      <div class="hidden md:block">
+        <div class="ml-10 flex items-baseline space-x-4">
+          <a routerLink="/home" routerLinkActive="bg-orange-500 text-white" [routerLinkActiveOptions]="{exact: true}" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+          <a routerLink="/about" routerLinkActive="bg-orange-500 text-white" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">About</a>
+          <a routerLink="/recipes" routerLinkActive="bg-orange-500 text-white" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Recipes</a>
+          <a routerLink="/contact" routerLinkActive="bg-orange-500 text-white" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Contact Us</a>
+          
+          @if (!authService.isLoggedIn()) {
+            <button (click)="openLogin()" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Login</button>
+            <button (click)="openSignup()" class="text-white bg-orange-500 hover:bg-orange-600 px-4 py-2 rounded-md text-sm font-medium transition duration-300">Sign Up</button>
+          } @else {
+            <a routerLink="/favorites" routerLinkActive="bg-orange-500 text-white" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Favorites</a>
+            <button (click)="logout()" class="text-white bg-gray-800 hover:bg-gray-900 px-4 py-2 rounded-md text-sm font-medium transition duration-300">Logout</button>
+          }
+        </div>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <div class="-mr-2 flex md:hidden">
+        <button (click)="toggleMenu()" type="button" class="bg-gray-200 inline-flex items-center justify-center p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-200 focus:ring-white">
+          <span class="sr-only">Open main menu</span>
+          @if (!isMenuOpen()) {
+            <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          } @else {
+            <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          }
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Menu, show/hide based on menu state. -->
+  <div class="md:hidden" [class.block]="isMenuOpen()" [class.hidden]="!isMenuOpen()">
+    <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+      <a routerLink="/home" routerLinkActive="bg-orange-500 text-white" [routerLinkActiveOptions]="{exact: true}" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">Home</a>
+      <a routerLink="/about" routerLinkActive="bg-orange-500 text-white" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">About</a>
+      <a routerLink="/recipes" routerLinkActive="bg-orange-500 text-white" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">Recipes</a>
+      <a routerLink="/contact" routerLinkActive="bg-orange-500 text-white" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">Contact Us</a>
+      <div class="border-t border-gray-200 my-2"></div>
+
+      @if (!authService.isLoggedIn()) {
+        <button (click)="openLogin()" class="w-full text-left text-gray-600 hover:bg-gray-200 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">Login</button>
+        <button (click)="openSignup()" class="w-full text-left text-white bg-orange-500 hover:bg-orange-600 block px-3 py-2 rounded-md text-base font-medium transition duration-300">Sign Up</button>
+      } @else {
+        <a routerLink="/favorites" routerLinkActive="bg-orange-500 text-white" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">Favorites</a>
+        <button (click)="logout()" class="w-full text-left text-gray-600 hover:bg-gray-200 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">Logout</button>
+      }
+    </div>
+  </div>
+</nav>
